@@ -5,12 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hoopluz.security.common.JwtToken;
 import hoopluz.security.common.ResponseEntity;
 import hoopluz.security.exception.UnauthorizedException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -19,13 +17,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 
-@Component
 public class JwtFilter extends OncePerRequestFilter {
 
   private final Jwt jwt;
 
-  @Autowired
-  public JwtFilter(Jwt jwt){
+  public JwtFilter(Jwt jwt) {
     this.jwt = jwt;
   }
 

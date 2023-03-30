@@ -16,7 +16,7 @@ public class ResponseEntity implements Serializable {
 
   private Object data;
 
-  public static ResponseEntity fromException(Exception exception) {
+  public static ResponseEntity fromException(Throwable exception) {
     ResponseEntityBuilder<?, ?> response = ResponseEntity
       .builder()
       .message(exception.getMessage())

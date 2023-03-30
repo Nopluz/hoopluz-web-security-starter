@@ -7,7 +7,7 @@ public class UserNotFoundException
 
   @Override
   public String getMessage() {
-    return "object not found !";
+    return "用户不存在";
   }
 
   @Override

@@ -12,13 +12,8 @@ public class AbstractExceptionMapper<E extends Throwable>
 
   @Override
   public Response toResponse(E exception) {
-    ResponseEntity entity = ResponseEntity
-      .builder()
-      .code(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode())
-      .message(exception.getMessage())
-      .build();
-
-    return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+    ResponseEntity entity = ResponseEntity.fromException(exception);
+    return Response.status(entity.getCode())
       .type(MediaType.APPLICATION_JSON_TYPE)
       .entity(entity)
       .build();

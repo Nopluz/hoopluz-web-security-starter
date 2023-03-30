@@ -9,5 +9,4 @@ import javax.ws.rs.ext.Provider;
 public class GlobalExceptionMapper extends
   AbstractExceptionMapper<RuntimeException> {
 
-
 }
