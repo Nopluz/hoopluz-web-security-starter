@@ -15,7 +15,7 @@ public class BeanConfig {
   }
 
   @Bean
-  Jwt getJwt(ObjectMapper objectMapper, JwtProperties properties) {
+  public Jwt getJwt(ObjectMapper objectMapper, JwtProperties properties) {
     return new Jwt(properties, objectMapper);
   }
 
