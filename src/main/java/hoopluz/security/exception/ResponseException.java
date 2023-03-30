@@ -9,7 +9,4 @@ public class ResponseException extends RuntimeException {
     return code;
   }
 
-  public void setCode(int code) {
-    this.code = code;
-  }
 }

@@ -2,13 +2,15 @@ package hoopluz.security;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hoopluz.security.common.JwtUser;
+import hoopluz.security.common.JwtToken;
 import hoopluz.security.common.ResponseEntity;
 import hoopluz.security.exception.UnauthorizedException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -17,15 +19,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 
+@Component
 public class JwtFilter extends OncePerRequestFilter {
 
   private final Jwt jwt;
 
-  private final Class<? extends JwtUser> clazz;
-
-  public JwtFilter(Jwt jwt, Class<? extends JwtUser> clazz) {
+  @Autowired
+  public JwtFilter(Jwt jwt){
     this.jwt = jwt;
-    this.clazz = clazz;
   }
 
   @Override
@@ -41,9 +42,9 @@ public class JwtFilter extends OncePerRequestFilter {
         throw new UnauthorizedException();
       }
 
-      JwtUser user = jwt.decode(token, clazz);
+      JwtToken jwtToken = jwt.decode(token);
       UsernamePasswordAuthenticationToken authentication =
-        new UsernamePasswordAuthenticationToken(user, token, AuthorityUtils.NO_AUTHORITIES);
+        new UsernamePasswordAuthenticationToken(jwtToken, token, AuthorityUtils.NO_AUTHORITIES);
 
       authentication.setDetails(new WebAuthenticationDetails(request));
       SecurityContextHolder.getContext().setAuthentication(authentication);
