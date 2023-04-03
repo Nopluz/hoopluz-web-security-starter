@@ -42,5 +42,12 @@ public class ResponseEntity<T> implements Serializable {
     return new ResponseEntity<>(data);
   }
 
+  public static ResponseEntity<Void> ok() {
+    ResponseEntity<Void> response = new ResponseEntity<>();
+    response.setCode(200);
+    response.setMessage("ok");
+    return response;
+  }
+
 
 }
