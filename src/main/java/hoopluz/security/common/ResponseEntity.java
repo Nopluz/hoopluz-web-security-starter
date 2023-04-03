@@ -1,23 +1,33 @@
 package hoopluz.security.common;
 
 import hoopluz.security.exception.ResponseException;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 
 @Data
 @SuperBuilder
-public class ResponseEntity implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+public class ResponseEntity<T> implements Serializable {
 
   private Integer code;
 
   private String message;
 
-  private Object data;
+  private T data;
 
-  public static ResponseEntity fromException(Throwable exception) {
-    ResponseEntityBuilder<?, ?> response = ResponseEntity
+  private ResponseEntity(T data) {
+    this.data = data;
+    this.code = 200;
+    this.message = "ok";
+  }
+
+  public static ResponseEntity<Object> fromException(Throwable exception) {
+    ResponseEntityBuilder<Object, ?, ?> response = ResponseEntity
       .builder()
       .message(exception.getMessage())
       .code(500);
@@ -27,5 +37,10 @@ public class ResponseEntity implements Serializable {
     exception.printStackTrace();
     return response.build();
   }
+
+  public static <R> ResponseEntity<R> ok(R data) {
+    return new ResponseEntity<>(data);
+  }
+
 
 }
