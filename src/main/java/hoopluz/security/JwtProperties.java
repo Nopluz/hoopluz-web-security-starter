@@ -17,7 +17,7 @@ public class JwtProperties {
 
   private Long expires = 30 * 60 * 1000L;
 
-  private Long invalid = 2 * 24 * 560 * 1000L;
+  private Long invalid = 2 * 24 * 60 * 60 * 1000L;
 
 
 }
