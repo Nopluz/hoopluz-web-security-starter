@@ -20,7 +20,7 @@ public class Securities {
       return Optional.empty();
     }
 
-    if (!(authentication.getPrincipal() instanceof JwtUser)) {
+    if (!(authentication.getPrincipal() instanceof JwtToken)) {
       return Optional.empty();
     }
     return Optional.ofNullable((JwtToken) authentication.getPrincipal());

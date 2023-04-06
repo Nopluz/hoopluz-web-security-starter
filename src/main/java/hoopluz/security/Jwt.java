@@ -28,6 +28,7 @@ public class Jwt {
 
     String token = JWT.create()
       .withClaim("i", id)
+      .withClaim("I", jwtToken.getIssuedAt())
       .withClaim("e", jwtToken.getExpiresAt())
       .withIssuedAt(jwtToken.getIssuedAt())
       .withExpiresAt(jwtToken.getInvalidAt())
@@ -39,7 +40,8 @@ public class Jwt {
     DecodedJWT decode = this.verifier.verify(token);
     return JwtToken.builder()
       .invalidAt(decode.getExpiresAtAsInstant())
-      .expiresAt(decode.getClaim("ex").asInstant())
+      .expiresAt(decode.getClaim("e").asInstant())
+      .issuedAt(decode.getClaim("I").asInstant())
       .id(decode.getClaim("i").asInt())
       .token(token)
       .build();
