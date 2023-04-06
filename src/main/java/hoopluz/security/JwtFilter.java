@@ -2,9 +2,9 @@ package hoopluz.security;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hoopluz.security.common.JwtToken;
-import hoopluz.security.common.ResponseEntity;
-import hoopluz.security.exception.UnauthorizedException;
+import hoopluz.common.domain.JwtToken;
+import hoopluz.common.domain.ResponseEntity;
+import hoopluz.common.domain.exception.UnauthorizedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;

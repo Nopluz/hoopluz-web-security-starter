@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
-import hoopluz.security.common.JwtToken;
+import hoopluz.common.domain.JwtToken;
 
 public class Jwt {
 
@@ -21,7 +21,11 @@ public class Jwt {
   }
 
   public JwtToken encode(int id) {
-    JwtToken jwtToken = JwtToken.newInstance(this.properties);
+    JwtToken jwtToken = JwtToken.newInstance(
+      this.properties.getExpires(),
+      this.properties.getInvalid()
+    );
+
     String token = JWT.create()
       .withClaim("i", id)
       .withClaim("e", jwtToken.getExpiresAt())

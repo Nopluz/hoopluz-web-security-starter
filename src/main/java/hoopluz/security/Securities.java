@@ -1,6 +1,8 @@
-package hoopluz.security.common;
+package hoopluz.security;
 
-import hoopluz.security.exception.UnauthorizedException;
+import hoopluz.common.domain.JwtToken;
+import hoopluz.common.domain.JwtUser;
+import hoopluz.common.domain.exception.UnauthorizedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
