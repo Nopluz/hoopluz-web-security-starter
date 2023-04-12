@@ -114,13 +114,13 @@
   <distributionManagement>
     <repository>
       <id>hoopluz-nexus</id>
-      <url>https://nexus.hoopluz.com/releases/</url>
+      <url>https://nexus.hoopluz.com/repository/releases/</url>
     </repository>
 
     <snapshotRepository>
       <id>hoopluz-nexus</id>
       <name>Nexus Snapshot Repository</name>
-      <url>https://nexus.hoopluz.com/snapshots/</url>
+      <url>https://nexus.hoopluz.com/repository/snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
 
