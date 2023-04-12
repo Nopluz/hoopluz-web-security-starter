@@ -1,10 +1,5 @@
 package hoopluz.security;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import hoopluz.security.common.JwtUser;
-import hoopluz.security.common.ResponseEntity;
-import hoopluz.security.exception.UnauthorizedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,40 +9,39 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Objects;
 
 public class JwtFilter extends OncePerRequestFilter {
 
   private final Jwt jwt;
 
-  private final Class<? extends JwtUser> clazz;
-
-  public JwtFilter(Jwt jwt, Class<? extends JwtUser> clazz) {
+  public JwtFilter(Jwt jwt) {
     this.jwt = jwt;
-    this.clazz = clazz;
   }
 
   @Override
   protected void doFilterInternal(
     HttpServletRequest request,
     HttpServletResponse response,
-    FilterChain chain) {
+    FilterChain chain
+  ) {
 
     try {
       String token = this.getToken(request);
       if (Objects.isNull(token)) {
-        throw new UnauthorizedException();
+        throw new IllegalArgumentException();
       }
 
-      JwtUser user = jwt.decode(token, clazz);
+      JwtToken jwtToken = jwt.decode(token);
       UsernamePasswordAuthenticationToken authentication =
-        new UsernamePasswordAuthenticationToken(user, token, AuthorityUtils.NO_AUTHORITIES);
+        new UsernamePasswordAuthenticationToken(jwtToken, token, AuthorityUtils.NO_AUTHORITIES);
 
       authentication.setDetails(new WebAuthenticationDetails(request));
       SecurityContextHolder.getContext().setAuthentication(authentication);
+      chain.doFilter(request, response);
     } catch (Exception exception) {
-      this.onException(exception, response);
+      exception.printStackTrace();
+//      this.onException(exception, response);
     }
   }
 
@@ -59,22 +53,22 @@ public class JwtFilter extends OncePerRequestFilter {
     return request.getParameter("Authorization");
   }
 
-  private void onException(Exception exception, HttpServletResponse response) {
-    ResponseEntity entity = ResponseEntity.fromException(exception);
-    response.setStatus(entity.getCode());
-    try {
-      response.getWriter().write(convertObjectToJson(entity));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
+//  private void onException(Exception exception, HttpServletResponse response) {
+//    ResponseEntity entity = ResponseEntity.fromException(exception);
+//    response.setStatus(entity.getCode());
+//    try {
+//      response.getWriter().write(convertObjectToJson(entity));
+//    } catch (IOException e) {
+//      throw new RuntimeException(e);
+//    }
+//  }
 
-  public String convertObjectToJson(Object object) throws JsonProcessingException {
-    if (object == null) {
-      return null;
-    }
-    ObjectMapper mapper = new ObjectMapper();
-    return mapper.writeValueAsString(object);
-  }
+//  public String convertObjectToJson(Object object) throws JsonProcessingException {
+//    if (object == null) {
+//      return null;
+//    }
+//    ObjectMapper mapper = new ObjectMapper();
+//    return mapper.writeValueAsString(object);
+//  }
 
 }
