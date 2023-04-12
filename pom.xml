@@ -75,14 +75,8 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>3.12.0</version>
-      <scope>compile</scope>
     </dependency>
 
-    <dependency>
-      <groupId>com.hoopluz</groupId>
-      <artifactId>hoopluz-common-domain</artifactId>
-      <version>1.0.0</version>
-    </dependency>
   </dependencies>
 
   <build>

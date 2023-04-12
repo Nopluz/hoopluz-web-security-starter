@@ -1,10 +1,5 @@
 package hoopluz.security;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import hoopluz.common.domain.JwtToken;
-import hoopluz.common.domain.ResponseEntity;
-import hoopluz.common.domain.exception.UnauthorizedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,7 +9,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Objects;
 
 public class JwtFilter extends OncePerRequestFilter {
@@ -35,7 +29,7 @@ public class JwtFilter extends OncePerRequestFilter {
     try {
       String token = this.getToken(request);
       if (Objects.isNull(token)) {
-        throw new UnauthorizedException();
+        throw new IllegalArgumentException();
       }
 
       JwtToken jwtToken = jwt.decode(token);
@@ -46,7 +40,8 @@ public class JwtFilter extends OncePerRequestFilter {
       SecurityContextHolder.getContext().setAuthentication(authentication);
       chain.doFilter(request, response);
     } catch (Exception exception) {
-      this.onException(exception, response);
+      exception.printStackTrace();
+//      this.onException(exception, response);
     }
   }
 
@@ -58,22 +53,22 @@ public class JwtFilter extends OncePerRequestFilter {
     return request.getParameter("Authorization");
   }
 
-  private void onException(Exception exception, HttpServletResponse response) {
-    ResponseEntity entity = ResponseEntity.fromException(exception);
-    response.setStatus(entity.getCode());
-    try {
-      response.getWriter().write(convertObjectToJson(entity));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
+//  private void onException(Exception exception, HttpServletResponse response) {
+//    ResponseEntity entity = ResponseEntity.fromException(exception);
+//    response.setStatus(entity.getCode());
+//    try {
+//      response.getWriter().write(convertObjectToJson(entity));
+//    } catch (IOException e) {
+//      throw new RuntimeException(e);
+//    }
+//  }
 
-  public String convertObjectToJson(Object object) throws JsonProcessingException {
-    if (object == null) {
-      return null;
-    }
-    ObjectMapper mapper = new ObjectMapper();
-    return mapper.writeValueAsString(object);
-  }
+//  public String convertObjectToJson(Object object) throws JsonProcessingException {
+//    if (object == null) {
+//      return null;
+//    }
+//    ObjectMapper mapper = new ObjectMapper();
+//    return mapper.writeValueAsString(object);
+//  }
 
 }

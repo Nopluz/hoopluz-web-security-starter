@@ -1,8 +1,5 @@
 package hoopluz.security;
 
-import hoopluz.common.domain.JwtToken;
-import hoopluz.common.domain.JwtUser;
-import hoopluz.common.domain.exception.UnauthorizedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -29,7 +26,7 @@ public class Securities {
   public static Integer getUserId() {
     return getCurrent()
       .map(JwtToken::getId)
-      .orElseThrow(UnauthorizedException::new);
+      .orElseThrow(IllegalArgumentException::new);
   }
 
 }
