@@ -4,14 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.hoopluz</groupId>
   <artifactId>hoopluz-web-security-starter</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
 
   <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.7.10</version>
+    <groupId>com.hoopluz</groupId>
+    <artifactId>hoopluz-starter-parent</artifactId>
+    <version>1.0.0</version>
   </parent>
 
   <properties>
@@ -103,31 +102,6 @@
       <name>nexus-releases</name>
       <url>https://nexus.hoopluz.com/repository/releases/</url>
     </repository>
-
-    <repository>
-      <id>nexus-snapshots</id>
-      <name>nexus-snapshots</name>
-      <url>https://nexus.hoopluz.com/repository/snapshots/</url>
-    </repository>
-
-    <repository>
-      <id>aliyunmaven</id>
-      <name>aliyun</name>
-      <url>https://maven.aliyun.com/repository/public/</url>
-    </repository>
   </repositories>
-
-  <distributionManagement>
-    <repository>
-      <id>hoopluz-nexus</id>
-      <url>https://nexus.hoopluz.com/repository/releases/</url>
-    </repository>
-
-    <snapshotRepository>
-      <id>hoopluz-nexus</id>
-      <name>Nexus Snapshot Repository</name>
-      <url>https://nexus.hoopluz.com/repository/snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
 
 </project>
