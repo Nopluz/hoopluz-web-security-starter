@@ -1,5 +1,6 @@
 package hoopluz.security;
 
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,23 +26,20 @@ public class JwtFilter extends OncePerRequestFilter {
     HttpServletResponse response,
     FilterChain chain
   ) {
-
     try {
       String token = this.getToken(request);
-      if (Objects.isNull(token)) {
-        throw new IllegalArgumentException();
-      }
-
       JwtToken jwtToken = jwt.decode(token);
       UsernamePasswordAuthenticationToken authentication =
-        new UsernamePasswordAuthenticationToken(jwtToken, token, AuthorityUtils.NO_AUTHORITIES);
-
+        new UsernamePasswordAuthenticationToken(
+          jwtToken,
+          token,
+          AuthorityUtils.NO_AUTHORITIES
+        );
       authentication.setDetails(new WebAuthenticationDetails(request));
       SecurityContextHolder.getContext().setAuthentication(authentication);
       chain.doFilter(request, response);
     } catch (Exception exception) {
-      exception.printStackTrace();
-//      this.onException(exception, response);
+      throw new BadCredentialsException(exception.getMessage());
     }
   }
 
@@ -52,23 +50,5 @@ public class JwtFilter extends OncePerRequestFilter {
     }
     return request.getParameter("Authorization");
   }
-
-//  private void onException(Exception exception, HttpServletResponse response) {
-//    ResponseEntity entity = ResponseEntity.fromException(exception);
-//    response.setStatus(entity.getCode());
-//    try {
-//      response.getWriter().write(convertObjectToJson(entity));
-//    } catch (IOException e) {
-//      throw new RuntimeException(e);
-//    }
-//  }
-
-//  public String convertObjectToJson(Object object) throws JsonProcessingException {
-//    if (object == null) {
-//      return null;
-//    }
-//    ObjectMapper mapper = new ObjectMapper();
-//    return mapper.writeValueAsString(object);
-//  }
 
 }
