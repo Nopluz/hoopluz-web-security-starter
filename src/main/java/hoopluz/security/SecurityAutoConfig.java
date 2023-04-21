@@ -36,6 +36,7 @@ public class SecurityAutoConfig {
     HttpSecurity http,
     ObjectMapper objectMapper
   ) throws Exception {
+    http.cors();
     http
       .addFilterBefore(new JwtFilter(jwt), UsernamePasswordAuthenticationFilter.class)
       .authorizeRequests()
